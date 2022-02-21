@@ -449,8 +449,6 @@ class CondLaneHead(nn.Module):
                 0, mask_pos_tensor)
             # with Timer("Elapsed time in mask_head: %f"):  #0.3ms
             masks = self.mask_head(mask_branch, mask_params, num_ins)
-            print(masks.shape)
-            return masks, None
             if self.regression:
                 reg_params = params[:, self.num_mask_params:].gather(
                     0, reg_pos_tensor)
@@ -834,6 +832,8 @@ class CondLaneRNNHead(nn.Module):
             mask_params = kernel_params[:, :self.num_mask_params]
             reg_params = kernel_params[:, self.num_mask_params:]
             masks = self.mask_head(mask_branch, mask_params, [num_ins])
+            print(masks.shape)
+            return masks, None
             regs = self.reg_head(reg_branch, reg_params, [num_ins])
             feat_range = masks.permute(0, 1, 3,
                                        2).view(num_ins, w_mask, h_mask)
