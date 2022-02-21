@@ -87,7 +87,7 @@ class DynamicMaskHead(nn.Module):
         self.compute_locations_pre = compute_locations_pre
         self.location_configs = location_configs
 
-        self.dynamic_conv = nn.Conv2d(1,1,1, stride=1, padding=0)
+        # self.dynamic_conv = nn.Conv2d(1,1,1, stride=1, padding=0)
 
         if compute_locations_pre and location_configs is not None:
             N, _, H, W = location_configs['size']
@@ -149,12 +149,12 @@ class DynamicMaskHead(nn.Module):
         n_layers = len(weights)
         x = features
         for i, (w, b) in enumerate(zip(weights, biases)):
-            print(x.shape, w.shape, b.shape, num_insts)
-            self.dynamic_conv.weight.data = w
-            self.dynamic_conv.bias.data = b
-            self.dynamic_conv.groups = num_insts
-            # x = F.conv2d(x, w, bias=b, stride=1, padding=0, groups=num_insts)
-            x = self.dynamic_conv(x)
+            # print(x.shape, w.shape, b.shape, num_insts)
+            # self.dynamic_conv.weight.data = w
+            # self.dynamic_conv.bias.data = b
+            # self.dynamic_conv.groups = num_insts
+            x = F.conv2d(x, w, bias=b, stride=1, padding=0, groups=num_insts)
+            # x = self.dynamic_conv(x)
             if i < n_layers - 1:
                 x = F.relu(x)
         return x
