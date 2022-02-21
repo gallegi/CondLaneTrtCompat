@@ -449,6 +449,8 @@ class CondLaneHead(nn.Module):
                 0, mask_pos_tensor)
             # with Timer("Elapsed time in mask_head: %f"):  #0.3ms
             masks = self.mask_head(mask_branch, mask_params, num_ins)
+            print(masks.shape)
+            return masks, None
             if self.regression:
                 reg_params = params[:, self.num_mask_params:].gather(
                     0, reg_pos_tensor)
