@@ -149,11 +149,12 @@ class DynamicMaskHead(nn.Module):
         n_layers = len(weights)
         x = features
         for i, (w, b) in enumerate(zip(weights, biases)):
-            # print(x.shape, w.shape, b.shape, num_insts)
+            print(x.shape, w.shape, b.shape, num_insts)
             # self.dynamic_conv.weight.data = w
             # self.dynamic_conv.bias.data = b
             # self.dynamic_conv.groups = num_insts
             x = F.conv2d(x, w, bias=b, stride=1, padding=0, groups=num_insts)
+            return x
             # x = self.dynamic_conv(x)
             if i < n_layers - 1:
                 x = F.relu(x)
